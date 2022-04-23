@@ -26,10 +26,7 @@ while run:
 
     client.send(msg.encode(FORMAT))
     resp = client.recv(4096).decode(FORMAT)
-    if msg == '/QUIT':
-        run = False
-
-    if resp == '':
+    if msg in ('/QUIT', ''):
         run = False
         print('Server shut down.')
     elif resp == 'ACK' + 'Nick name already taken.':

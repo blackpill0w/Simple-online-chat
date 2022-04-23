@@ -46,7 +46,7 @@ def handle_client(conn, addr):
 def start():
     global run
 
-    print('Starting server... (Ctrl-C to shut down, and make sure all clients are disconnected)')
+    print('Starting server... (Ctrl-C to shut down)')
     server.listen(5)
     print("Waiting for connection...")
     try:
