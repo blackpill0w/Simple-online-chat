@@ -1,12 +1,6 @@
 import socket
+from utils import  ADDR, FORMAT, BUFFER_SIZE
 from rich import print as rprint
-
-HOST = socket.gethostbyname(socket.gethostname())
-PORT = 9991
-ADDR = HOST, PORT
-
-FORMAT = 'utf-8'
-HEADER_SIZE = 64
 
 # TCP
 print('[*] Trying to connect...')
@@ -15,7 +9,7 @@ client.connect(ADDR)
 print('Connected!')
 
 # First we need to set a nick name
-nick_name_req = client.recv(4096).decode(FORMAT)
+nick_name_req = client.recv(BUFFER_SIZE).decode(FORMAT)
 print(nick_name_req)
 
 run = True
@@ -26,12 +20,12 @@ while run:
 
     client.send(msg.encode(FORMAT))
     resp = client.recv(4096).decode(FORMAT)
-    if msg in ('/QUIT', ''):
+    if resp == '/QUIT' or msg == '/QUIT':
         run = False
-        print('Server shut down.')
+        print('Shut down.')
     elif resp == 'ACK' + 'Nick name already taken.':
         print('Nick name already taken.')
     elif resp != 'ACK':
-        print(f'Response: {resp}')
+        rprint(resp)
 
 client.close()
